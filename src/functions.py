@@ -89,8 +89,10 @@ def calculateTiles():
                 classes.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
                              variables.bgColor,
                              classes.TileType.Ground))
-
+    variables.tileResolutionY = y / variables.TILE_SIZE + 1
+    variables.tileResolutionX = x / variables.TILE_SIZE + 1
 
 def generatePath():
+    alloweStartPositions = []
     for tile in variables.tiles:
-
+        pass

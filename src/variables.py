@@ -10,6 +10,8 @@ window = None
 TILE_SIZE = 40
 tiles = []
 roadTiles = []
+tileResolutionX = 0
+tilerResolutionY = 0
 
 # Colors
 bgColor = (60, 127, 60)
