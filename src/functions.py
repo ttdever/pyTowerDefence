@@ -93,15 +93,24 @@ def calculateTiles():
     variables.tileResolutionX = x / variables.TILE_SIZE + 1
 
 
+# Generates path between enemy spawn and base:
 def generatePath():
     allowedStartPositions = []
     allowedEndPositions = []
     for tile in variables.tiles:
         resolutionPosition = tile.getTileResolutionPosition()
-        if resolutionPosition[0] == 0 and resolutionPosition[1] in range(1, 14):
+        if resolutionPosition[0] == 0 and resolutionPosition[1] in range(1, int(variables.tileResolutionX - 1)):
             allowedStartPositions.append(tile)
-            tile.setColor(variables.roadColor)
-        elif resolutionPosition[0] == 14 and resolutionPosition[1] in range(1, 14):
+            tile.setColor(variables.redColor)
+        elif resolutionPosition[0] == int(variables.tileResolutionX - 1) and resolutionPosition[1] in range(1, int(variables.tileResolutionX - 1)):
             allowedEndPositions.append(tile)
-            tile.setColor(variables.baseColor)
+            tile.setColor(variables.redColor)
+
+    startPositionTileResCoordinates = allowedStartPositions[random.randrange(0, len(allowedStartPositions))]
+    endPositionTileResCoordinates = allowedEndPositions[random.randrange(0, len(allowedEndPositions))]
+    startPositionTileResCoordinates.setColor(variables.roadColor)
+    endPositionTileResCoordinates.setColor(variables.baseColor)
+
+def calculatePath(startTile, endTile):
+    pass
 
