@@ -1,6 +1,12 @@
 import pygame
-import variables
-import classes
+import sys
 import functions
+import variables
 
-functions.initGame()
+
+def main():
+    functions.initGame()
+    while True:
+        functions.tickGame()
+
+main()
