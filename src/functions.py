@@ -23,7 +23,6 @@ def tickGame():
     checkInputs()
     checkPhysics()
     checkDraw()
-    generatePath()
     pygame.display.update()
 
 
@@ -75,8 +74,8 @@ def checkExit():
 def drawGrid():
     for tile in variables.tiles:
         coordinatesToDraw = tile.getPosition()
-        x = coordinatesToDraw[0] - variables.TILE_SIZE / 2+ 1
-        y = coordinatesToDraw[1] - variables.TILE_SIZE / 2+ 1
+        x = coordinatesToDraw[0] - variables.TILE_SIZE / 2 + 1
+        y = coordinatesToDraw[1] - variables.TILE_SIZE / 2 + 1
         size = variables.TILE_SIZE - 2
         rectToDraw = pygame.Rect(x, y, size, size)
         pygame.draw.rect(variables.window, tile.getColor(), rectToDraw, 20)
@@ -88,11 +87,21 @@ def calculateTiles():
             variables.tiles.append(
                 classes.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
                              variables.bgColor,
+                             (int(x / variables.TILE_SIZE), int(y / variables.TILE_SIZE)),
                              classes.TileType.Ground))
     variables.tileResolutionY = y / variables.TILE_SIZE + 1
     variables.tileResolutionX = x / variables.TILE_SIZE + 1
 
+
 def generatePath():
-    alloweStartPositions = []
+    allowedStartPositions = []
+    allowedEndPositions = []
     for tile in variables.tiles:
-        pass
+        resolutionPosition = tile.getTileResolutionPosition()
+        if resolutionPosition[0] == 0 and resolutionPosition[1] in range(1, 14):
+            allowedStartPositions.append(tile)
+            tile.setColor(variables.roadColor)
+        elif resolutionPosition[0] == 14 and resolutionPosition[1] in range(1, 14):
+            allowedEndPositions.append(tile)
+            tile.setColor(variables.baseColor)
+

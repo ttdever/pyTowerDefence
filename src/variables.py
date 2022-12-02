@@ -17,5 +17,6 @@ tilerResolutionY = 0
 bgColor = (60, 127, 60)
 selectedTileColorShift = (50, 50, 50)
 roadColor = (255, 0, 0)
+baseColor = (0,0,255)
 gridColor = (60, 60, 60)
 
