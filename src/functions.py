@@ -1,6 +1,7 @@
 import sys
 import pygame
 import variables
+from array import *
 
 
 # Start of program:
@@ -21,7 +22,12 @@ def tickGame():
 
 # Creates tiles
 def drawGrid():
+    iter_x = iter_y = 0
     for x in range(0, variables.WIDTH, variables.TILE_SIZE):
+        iter_x += 1
         for y in range(0, variables.HEIGHT, variables.TILE_SIZE):
+            iter_y += 1
             rect = pygame.Rect(x, y, variables.TILE_SIZE, variables.TILE_SIZE)
             pygame.draw.rect(variables.window, variables.gridColor, rect, 1)
+            variables.tiles[iter_x][iter_y] = (x, y)
+
