@@ -22,12 +22,14 @@ def tickGame():
 
 # Creates tiles
 def drawGrid():
+    variables.tiles.append([])
     iter_x = iter_y = 0
     for x in range(0, variables.WIDTH, variables.TILE_SIZE):
-        iter_x += 1
         for y in range(0, variables.HEIGHT, variables.TILE_SIZE):
-            iter_y += 1
             rect = pygame.Rect(x, y, variables.TILE_SIZE, variables.TILE_SIZE)
             pygame.draw.rect(variables.window, variables.gridColor, rect, 1)
-            variables.tiles[iter_x][iter_y] = (x, y)
-
+            pygame.draw.circle(variables.window, (255,0,0), (x + variables.TILE_SIZE/2, y + variables.TILE_SIZE/2), 1, 1)
+            variables.tiles.append((x, y))
+            iter_y += 1
+        iter_y = 0
+        iter_x += 1
