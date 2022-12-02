@@ -13,3 +13,6 @@ class Tile:
 
     def getColor(self):
         return self.color
+
+    def setColor(self, newColor):
+        self.color = newColor
