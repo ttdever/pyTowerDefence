@@ -13,7 +13,7 @@ roadTiles = []
 
 # Colors
 bgColor = (60, 127, 60)
-selectedTileColor = (120, 240, 120)
+selectedTileColorShift = (50, 50, 50)
 roadColor = (255, 0, 0)
 gridColor = (60, 60, 60)
 

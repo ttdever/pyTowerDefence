@@ -2,6 +2,8 @@ import sys
 import pygame
 import variables
 import math
+import classes
+import numpy as np
 
 
 # Start of program:
@@ -20,14 +22,15 @@ def tickGame():
     checkDraw()
     pygame.display.update()
 
+
 def checkDraw():
     drawGrid()
     drawSelectedTile()
 
 
-
 def checkInputs():
     checkExit()
+
 
 def checkPhysics():
     pass
@@ -36,19 +39,23 @@ def checkPhysics():
 # Check mouse position :|
 def drawSelectedTile():
     mousePosition = pygame.mouse.get_pos()
-    closestTilePosition = findClosestTile(mousePosition)
-    selectedTile = pygame.Rect(closestTilePosition[0] - variables.TILE_SIZE / 2 + 1,
-                               closestTilePosition[1] - variables.TILE_SIZE / 2 + 1, variables.TILE_SIZE - 2,
+    closestTile = findClosestTile(mousePosition)
+    selectedTile = pygame.Rect(closestTile.getPosition()[0] - variables.TILE_SIZE / 2 + 1,
+                               closestTile.getPosition()[1] - variables.TILE_SIZE / 2 + 1, variables.TILE_SIZE - 2,
                                variables.TILE_SIZE - 2)
-    pygame.draw.rect(variables.window, variables.selectedTileColor, selectedTile, 30)
+    selectionColor = np.add(closestTile.getColor(), variables.selectedTileColorShift)
+    pygame.draw.rect(variables.window, (selectionColor[0], selectionColor[1], selectionColor[2]), selectedTile, 30)
 
 
 # Find the closest tile to mouse position by iterating through array with tiles
 def findClosestTile(mousePos):
     result = variables.tiles[0]
-    for coordinates in variables.tiles:
-        if math.dist(coordinates, mousePos) < math.dist(result, mousePos):
-            result = coordinates
+    selectedTilePos = result.getPosition()
+    for tile in variables.tiles:
+        coordinates = tile.getPosition()
+        if math.dist(coordinates, mousePos) < math.dist(selectedTilePos, mousePos):
+            selectedTilePos = coordinates
+            result = tile
     return result
 
 
@@ -72,4 +79,7 @@ def drawGrid():
 def calculateTiles():
     for x in range(0, variables.WIDTH, variables.TILE_SIZE):
         for y in range(0, variables.HEIGHT, variables.TILE_SIZE):
-            variables.tiles.append((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2))
+            variables.tiles.append(
+                classes.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
+                             variables.bgColor,
+                             classes.TileType.Ground))
