@@ -37,4 +37,4 @@ class Tile:
             checkOnY = (tilePosition[1] == selfPosition[1] and abs(tilePosition[0] - selfPosition[0])) == 1
             if checkOnX or checkOnY:
                 neighbours.append(tile)
-                tile.setColor((255, 0, 0))
+        return neighbours

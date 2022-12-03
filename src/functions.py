@@ -48,7 +48,8 @@ def drawSelectedTile():
                                closestTile.getPosition()[1] - variables.TILE_SIZE / 2 + 1, variables.TILE_SIZE - 2,
                                variables.TILE_SIZE - 2)
     selectionColor = np.clip(np.add(closestTile.getColor(), variables.selectedTileColorShift), 0, 255)
-    pygame.draw.rect(variables.window, (selectionColor[0], selectionColor[1], selectionColor[2]), selectedTile, variables.TILE_SIZE)
+    pygame.draw.rect(variables.window, (selectionColor[0], selectionColor[1], selectionColor[2]), selectedTile,
+                     variables.TILE_SIZE)
 
 
 # Find the closest tile to mouse position by iterating through array with tiles
@@ -107,11 +108,12 @@ def generatePath():
         elif x == int(variables.tileResolutionX - 1) and y in range(1, int(variables.tileResolutionX - 1)):
             allowedEndPositions.append(tile)
 
-    startPositionTileResCoordinates = allowedStartPositions[random.randrange(0, len(allowedStartPositions))]
-    endPositionTileResCoordinates = allowedEndPositions[random.randrange(0, len(allowedEndPositions))]
-    startPositionTileResCoordinates.setColor(variables.roadColor)
-    endPositionTileResCoordinates.setColor(variables.baseColor)
-    generatePosts(startPositionTileResCoordinates, endPositionTileResCoordinates)
+    startTile = allowedStartPositions[random.randrange(0, len(allowedStartPositions))]
+    endTile = allowedEndPositions[random.randrange(0, len(allowedEndPositions))]
+    startTile.setColor(variables.roadColor)
+    endTile.setColor(variables.baseColor)
+    posts = generatePosts(startTile, endTile)
+    calculatePath(startTile, endTile, posts)
 
 
 # Calculate path:
@@ -122,7 +124,8 @@ def generatePosts(startTile, endTile):
         x = resolutionPos[0]
         y = resolutionPos[1]
         if x != 0 and x != variables.tileResolutionX - 1 and y != 0 and y != variables.tileResolutionY - 1:
-            if x % 5 == 0 and x + 2 != endTile.getTileResolutionPosition()[0]:
+            if x % 5 == 0 and x + 2 != endTile.getTileResolutionPosition()[0] and x - 1 != \
+                    startTile.getTileResolutionPosition()[0]:
                 allowedTiles.append(tile)
 
     x = allowedTiles[len(allowedTiles) - 1].getTileResolutionPosition()[0]
@@ -132,12 +135,32 @@ def generatePosts(startTile, endTile):
     selectedPosts = []
     for i in range(len(allowedTiles)):
         selectedPosts.append(allowedTiles[i][random.randrange(0, len(allowedTiles[i]) - 1)])
+    for post in selectedPosts:
+        post.setColor((255, 255, 0))
 
-    for tile in selectedPosts:
-        tile.setColor(variables.roadColor)
-        tile.getNeighbours(variables.tiles)
-
-
+    return selectedPosts
 
 
+def calculatePath(start, end, posts):
+    posts.insert(0, start)
+    posts.append(end)
+    lengthOfRoad = len(posts)
+    i = 0
+
+    while i < len(posts):
+        neighbours = posts[i].getNeighbours(variables.tiles)
+        bestNeighbour = neighbours[0]
+        for neighbour in neighbours:
+            if bestNeighbour.distanceTo(posts[i + 1]) > neighbour.distanceTo(posts[i + 1]):
+                bestNeighbour = neighbour
+        if bestNeighbour.getTileResolutionPosition() == end.getTileResolutionPosition():
+            break
+        elif posts.__contains__(bestNeighbour):
+            i += 1
+            continue
+        else:
+            print(bestNeighbour.getTileResolutionPosition())
+            bestNeighbour.setColor(variables.redColor)
+            posts.insert(i + 1, bestNeighbour)
+            i += 1
 
