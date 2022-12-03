@@ -11,13 +11,13 @@ TILE_SIZE = 30
 tiles = []
 roadTiles = []
 tileResolutionX = 0
-tilerResolutionY = 0
+tileResolutionY = 0
+pathPostShift = 5
 
 # Colors
 bgColor = (60, 127, 60)
 selectedTileColorShift = (50, 50, 50)
 roadColor = (125, 70, 70)
-baseColor = (0,0,255)
+baseColor = (0, 0, 255)
 redColor = (255, 0, 0)
 gridColor = (60, 60, 60)
-

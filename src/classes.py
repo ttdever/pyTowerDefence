@@ -1,8 +1,10 @@
+import math
 from enum import Enum
 
 class TileType(Enum):
     Ground = 1
     Road = 2
+
 class Tile:
     def __init__(self, position, color, tileResolutionPosition, type):
         self.position = position
@@ -16,8 +18,12 @@ class Tile:
     def getColor(self):
         return self.color
 
+    def setColor(self, newColor):
+        self.color = newColor
+
     def getTileResolutionPosition(self):
         return self.tileResolutionPosition
 
-    def setColor(self, newColor):
-        self.color = newColor
+    def distanceTo(self, anotherTile):
+        return math.dist(self.getTileResolutionPosition(), anotherTile.getTileResolutionPosition())
+

@@ -1,3 +1,4 @@
+import array
 import random
 import sys
 import pygame
@@ -23,12 +24,12 @@ def tickGame():
     checkInputs()
     checkPhysics()
     checkDraw()
-    pygame.display.update()
 
 
 def checkDraw():
     drawGrid()
     drawSelectedTile()
+    pygame.display.update()
 
 
 def checkInputs():
@@ -47,7 +48,7 @@ def drawSelectedTile():
                                closestTile.getPosition()[1] - variables.TILE_SIZE / 2 + 1, variables.TILE_SIZE - 2,
                                variables.TILE_SIZE - 2)
     selectionColor = np.clip(np.add(closestTile.getColor(), variables.selectedTileColorShift), 0, 255)
-    pygame.draw.rect(variables.window, (selectionColor[0], selectionColor[1], selectionColor[2]), selectedTile, 30)
+    pygame.draw.rect(variables.window, (selectionColor[0], selectionColor[1], selectionColor[2]), selectedTile, variables.TILE_SIZE)
 
 
 # Find the closest tile to mouse position by iterating through array with tiles
@@ -78,7 +79,7 @@ def drawGrid():
         y = coordinatesToDraw[1] - variables.TILE_SIZE / 2 + 1
         size = variables.TILE_SIZE - 2
         rectToDraw = pygame.Rect(x, y, size, size)
-        pygame.draw.rect(variables.window, tile.getColor(), rectToDraw, 20)
+        pygame.draw.rect(variables.window, tile.getColor(), rectToDraw, variables.TILE_SIZE)
 
 
 def calculateTiles():
@@ -99,18 +100,43 @@ def generatePath():
     allowedEndPositions = []
     for tile in variables.tiles:
         resolutionPosition = tile.getTileResolutionPosition()
-        if resolutionPosition[0] == 0 and resolutionPosition[1] in range(1, int(variables.tileResolutionX - 1)):
+        x = resolutionPosition[0]
+        y = resolutionPosition[1]
+        if x == 0 and resolutionPosition[1] in range(1, int(variables.tileResolutionX - 1)):
             allowedStartPositions.append(tile)
-            tile.setColor(variables.redColor)
-        elif resolutionPosition[0] == int(variables.tileResolutionX - 1) and resolutionPosition[1] in range(1, int(variables.tileResolutionX - 1)):
+        elif x == int(variables.tileResolutionX - 1) and y in range(1, int(variables.tileResolutionX - 1)):
             allowedEndPositions.append(tile)
-            tile.setColor(variables.redColor)
 
     startPositionTileResCoordinates = allowedStartPositions[random.randrange(0, len(allowedStartPositions))]
     endPositionTileResCoordinates = allowedEndPositions[random.randrange(0, len(allowedEndPositions))]
     startPositionTileResCoordinates.setColor(variables.roadColor)
     endPositionTileResCoordinates.setColor(variables.baseColor)
+    generatePosts(startPositionTileResCoordinates, endPositionTileResCoordinates)
 
-def calculatePath(startTile, endTile):
-    pass
+
+# Calculate path:
+def generatePosts(startTile, endTile):
+    allowedTiles = []
+    for tile in variables.tiles:
+        resolutionPos = tile.getTileResolutionPosition()
+        x = resolutionPos[0]
+        y = resolutionPos[1]
+        if x != 0 and x != variables.tileResolutionX - 1 and y != 0 and y != variables.tileResolutionY - 1:
+            if x % 5 == 0 and x + 2 != endTile.getTileResolutionPosition()[0]:
+                allowedTiles.append(tile)
+
+    x = allowedTiles[len(allowedTiles) - 1].getTileResolutionPosition()[0]
+    y = allowedTiles[len(allowedTiles) - 1].getTileResolutionPosition()[1]
+    allowedTiles = np.reshape(allowedTiles, (int(x / 5), y))
+
+    selectedPosts = []
+    for i in range(len(allowedTiles)):
+        selectedPosts.append(allowedTiles[i][random.randrange(0, len(allowedTiles[i]) - 1)])
+
+    for tile in selectedPosts:
+        tile.setColor(variables.roadColor)
+
+
+
+
 
