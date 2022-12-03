@@ -1,4 +1,5 @@
 import math
+import numpy as np
 from enum import Enum
 
 class TileType(Enum):
@@ -27,3 +28,13 @@ class Tile:
     def distanceTo(self, anotherTile):
         return math.dist(self.getTileResolutionPosition(), anotherTile.getTileResolutionPosition())
 
+    def getNeighbours(self, tileGridList):
+        neighbours = []
+        selfPosition = self.getTileResolutionPosition()
+        for tile in tileGridList:
+            tilePosition = tile.getTileResolutionPosition()
+            checkOnX = (tilePosition[0] == selfPosition[0] and abs(tilePosition[1] - selfPosition[1])) == 1
+            checkOnY = (tilePosition[1] == selfPosition[1] and abs(tilePosition[0] - selfPosition[0])) == 1
+            if checkOnX or checkOnY:
+                neighbours.append(tile)
+                tile.setColor((255, 0, 0))

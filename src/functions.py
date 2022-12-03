@@ -135,6 +135,7 @@ def generatePosts(startTile, endTile):
 
     for tile in selectedPosts:
         tile.setColor(variables.roadColor)
+        tile.getNeighbours(variables.tiles)
 
 
 
