@@ -61,12 +61,26 @@ def checkMouseInGameZone():
     variables.mouseInGameZone = mousePos[0] < variables.gameZoneBounds[0] and mousePos[1] < variables.gameZoneBounds[1]
 
 def checkClick(clickPos):
-    if variables.mouseInGameZone:
+    if variables.mouseInGameZone and variables.tilesAreSelectable:
         x = variables.selectedTile.getPosition()[0]
         y = variables.selectedTile.getPosition()[1] - variables.TILE_SIZE
         variables.interfaceController.setTowerSelectorPos(x, y)
         variables.interfaceController.setNeedToDrawTowerSelector(True)
+        typeOfSelectedTile = variables.selectedTile.getType()
+
+        if typeOfSelectedTile == Tile.TileType.Ground:
+            variables.interfaceController.setCanBuild(True)
+            variables.interfaceController.setCanUpgrade(False)
+        elif typeOfSelectedTile == Tile.TileType.Tower:
+            variables.interfaceController.setCanBuild(False)
+            variables.interfaceController.setCanUpgrade(True)
+        else:
+            variables.interfaceController.setCanBuild(False)
+            variables.interfaceController.setCanUpgrade(False)
+
         variables.tilesAreSelectable = False
+    elif not variables.tilesAreSelectable:
+        variables.interfaceController.checkMouseInput(clickPos)
     else:
         pass
 

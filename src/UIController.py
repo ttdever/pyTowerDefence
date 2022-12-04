@@ -26,9 +26,9 @@ class UIController:
     def __init__(self):
         self.needToDrawTowerSelector = False
         self.towerSelectorPos = (0, 0)
-        self.boundBuildButton = (0, 0)
-        self.boundUpdateButton = (0, 0)
-        self.canUpdate = False
+        self.boundBuildButton= (0, 0)
+        self.boundUpgradeButton = (0, 0)
+        self.canUpgrade = False
         self.canBuild = False
 
     def updateUI(self):
@@ -57,6 +57,10 @@ class UIController:
             pygame.draw.rect(variables.window, variables.buttonBgColor, upgradeButton, variables.TILE_SIZE)
             variables.window.blit(textUpgrade, (self.towerSelectorPos[0] + 8 + variables.TILE_SIZE, self.towerSelectorPos[1]))
 
+            self.boundBuildButton = (self.towerSelectorPos[0] + 2.5, self.towerSelectorPos[1] + 2.5)
+            self.boundUpgradeButton = (
+            self.towerSelectorPos[0] + 2.5 + variables.TILE_SIZE, self.towerSelectorPos[1] + 2.5)
+
     def updateHP(self):
         variables.window.blit(heartImage, heartPos)
         text = variables.font.render(str(variables.baseHp), True, variables.redColor)
@@ -84,6 +88,22 @@ class UIController:
     def setCanBuild(self, boolean):
         self.canBuild = boolean
 
-    def setCanUpdate(self, boolean):
-        self.canUpdate = boolean
+    def setCanUpgrade(self, boolean):
+        self.canUpgrade = boolean
 
+    def checkMouseInput(self, clickPos):
+        inBoundsBuild = (clickPos[0] > self.boundBuildButton[0] and clickPos[1] > self.boundBuildButton[1]) and \
+                        (clickPos[0] < self.boundBuildButton[0] + variables.TILE_SIZE - 5 and clickPos[1] <
+                         self.boundBuildButton[1] + variables.TILE_SIZE - 5) \
+                        and self.canBuild
+        inBoundsUpgrade = (clickPos[0] > self.boundUpgradeButton[0] and clickPos[1] > self.boundUpgradeButton[1]) and \
+                        (clickPos[0] < self.boundUpgradeButton[0] + variables.TILE_SIZE - 5 and clickPos[1] <
+                         self.boundUpgradeButton[1] + variables.TILE_SIZE - 5) \
+                        and self.canBuild
+        if inBoundsBuild:
+            print("Build")
+        elif inBoundsUpgrade:
+            print("Upgrade")
+
+        variables.tilesAreSelectable = True
+        self.needToDrawTowerSelector = False
