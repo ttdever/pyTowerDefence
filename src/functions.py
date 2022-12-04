@@ -1,15 +1,15 @@
-import array
 import random
 import sys
 import pygame
 import variables
 import math
-import classes
+import Tile
 import numpy as np
 
 
 # Start of program:
 def initGame():
+    pygame.display.set_caption("pyTowerDefence")
     variables.window = pygame.display.set_mode((variables.WIDTH, variables.HEIGHT))
     variables.window.fill(variables.gridColor)
     variables.clock = pygame.time.Clock()
@@ -113,7 +113,7 @@ def generatePath():
     startTile.setColor(variables.roadColor)
     endTile.setColor(variables.baseColor)
     posts = generatePosts(startTile, endTile)
-    calculatePath(startTile, endTile, posts)
+    variables.roadTiles = calculatePath(startTile, endTile, posts)
 
 
 # Calculate path:
@@ -136,15 +136,15 @@ def generatePosts(startTile, endTile):
     for i in range(len(allowedTiles)):
         selectedPosts.append(allowedTiles[i][random.randrange(0, len(allowedTiles[i]) - 1)])
     for post in selectedPosts:
-        post.setColor((255, 255, 0))
+        post.setColor(variables.roadColor)
 
     return selectedPosts
 
 
 def calculatePath(start, end, posts):
+    start.setColor(variables.redColor)
     posts.insert(0, start)
     posts.append(end)
-    lengthOfRoad = len(posts)
     i = 0
 
     while i < len(posts):
@@ -159,8 +159,8 @@ def calculatePath(start, end, posts):
             i += 1
             continue
         else:
-            print(bestNeighbour.getTileResolutionPosition())
-            bestNeighbour.setColor(variables.redColor)
+            bestNeighbour.setColor(variables.roadColor)
             posts.insert(i + 1, bestNeighbour)
             i += 1
+    return posts
 

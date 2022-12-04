@@ -12,7 +12,7 @@ tiles = []
 roadTiles = []
 tileResolutionX = 0
 tileResolutionY = 0
-pathPostShift = 5
+pathPostShift = 3
 
 # Colors
 bgColor = (60, 127, 60)
