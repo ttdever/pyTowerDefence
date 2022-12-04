@@ -5,6 +5,8 @@ from enum import Enum
 class TileType(Enum):
     Ground = 1
     Road = 2
+    Tower = 3
+    Base = 4
 
 class Tile:
     def __init__(self, position, color, tileResolutionPosition, type):
@@ -38,3 +40,9 @@ class Tile:
             if checkOnX or checkOnY:
                 neighbours.append(tile)
         return neighbours
+
+    def getType(self):
+        return self.type
+
+    def setType(self):
+        self.type = type

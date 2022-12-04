@@ -4,21 +4,23 @@ import pygame
 import variables
 import math
 import Tile
-import Enemy
+import UIController
 import numpy as np
 
 
 # Start of program:
 def initGame():
     pygame.display.set_caption("pyTowerDefence")
+    pygame.font.init()
+    variables.font = pygame.font.SysFont('arial', 23)
     variables.window = pygame.display.set_mode((variables.WIDTH, variables.HEIGHT))
     variables.window.fill(variables.gridColor)
     variables.clock = pygame.time.Clock()
     calculateTiles()
     drawGrid()
     generatePath()
-    testE = Enemy.Enemy(10, 25, variables.roadTiles)
-    variables.enemies.append(testE)
+    getGameZoneBounds()
+    variables.interfaceController = UIController.UIController()
 
 
 # Call every frame (unity update analog)
@@ -33,15 +35,34 @@ def checkDraw():
     drawGrid()
     drawSelectedTile()
     drawEnemies()
+    variables.interfaceController.updateUI()
     pygame.display.update()
 
 
+# Check for user inputs
 def checkInputs():
-    checkExit()
+    checkMouseInGameZone()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit(0)
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            checkClick(pygame.mouse.get_pos())
 
 
 def checkPhysics():
     moveEnemies()
+
+
+def checkMouseInGameZone():
+    mousePos = pygame.mouse.get_pos()
+    variables.mouseInGameZone = mousePos[0] < variables.gameZoneBounds[0] and mousePos[1] < variables.gameZoneBounds[1]
+
+def checkClick(clickPos):
+    if variables.mouseInGameZone:
+        pass
+    else:
+        pass
 
 
 def drawEnemies():
@@ -56,14 +77,15 @@ def moveEnemies():
 
 # Check mouse position and craw selected tile
 def drawSelectedTile():
-    mousePosition = pygame.mouse.get_pos()
-    closestTile = findClosestTile(mousePosition)
-    selectedTile = pygame.Rect(closestTile.getPosition()[0] - variables.TILE_SIZE / 2 + 1,
-                               closestTile.getPosition()[1] - variables.TILE_SIZE / 2 + 1, variables.TILE_SIZE - 2,
-                               variables.TILE_SIZE - 2)
-    selectionColor = np.clip(np.add(closestTile.getColor(), variables.selectedTileColorShift), 0, 255)
-    pygame.draw.rect(variables.window, (selectionColor[0], selectionColor[1], selectionColor[2]), selectedTile,
-                     variables.TILE_SIZE)
+    if variables.mouseInGameZone:
+        mousePosition = pygame.mouse.get_pos()
+        closestTile = findClosestTile(mousePosition)
+        selectedTile = pygame.Rect(closestTile.getPosition()[0] - variables.TILE_SIZE / 2 + 1,
+                                   closestTile.getPosition()[1] - variables.TILE_SIZE / 2 + 1, variables.TILE_SIZE - 2,
+                                   variables.TILE_SIZE - 2)
+        selectionColor = np.clip(np.add(closestTile.getColor(), variables.selectedTileColorShift), 0, 255)
+        pygame.draw.rect(variables.window, (selectionColor[0], selectionColor[1], selectionColor[2]), selectedTile,
+                         variables.TILE_SIZE)
 
 
 # Find the closest tile to mouse position by iterating through array with tiles
@@ -75,15 +97,8 @@ def findClosestTile(mousePos):
         if math.dist(coordinates, mousePos) < math.dist(selectedTilePos, mousePos):
             selectedTilePos = coordinates
             result = tile
+    variables.selectedTile = result
     return result
-
-
-# Checks for exit input
-def checkExit():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit(0)
 
 
 # Creates tiles and writes tile centers to "variables.tiles"
@@ -100,7 +115,7 @@ def drawGrid():
 
 def calculateTiles():
     for x in range(0, variables.WIDTH, variables.TILE_SIZE):
-        for y in range(0, variables.HEIGHT, variables.TILE_SIZE):
+        for y in range(0, variables.HEIGHT - 60, variables.TILE_SIZE):
             variables.tiles.append(
                 Tile.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
                           variables.bgColor,
@@ -178,3 +193,9 @@ def calculatePath(start, end, posts):
             posts.insert(i + 1, bestNeighbour)
             i += 1
     return posts
+
+
+def getGameZoneBounds():
+    lastTile = variables.tiles[len(variables.tiles) - 1]
+    variables.gameZoneBounds = (lastTile.getPosition()[0] + variables.TILE_SIZE / 2, lastTile.getPosition()[1] + variables.TILE_SIZE / 2)
+
