@@ -37,6 +37,7 @@ def checkDraw():
     drawGrid()
     drawSelectedTile()
     drawEnemies()
+    drawTowers()
     variables.interfaceController.updateUI()
     pygame.display.update()
 
@@ -84,6 +85,9 @@ def checkClick(clickPos):
     else:
         pass
 
+def drawTowers():
+    for tower in variables.towers:
+        tower.draw(variables.window)
 
 def drawEnemies():
     for enemy in variables.enemies:
@@ -135,7 +139,7 @@ def drawGrid():
 
 def calculateTiles():
     for x in range(0, variables.WIDTH, variables.TILE_SIZE):
-        for y in range(0, variables.HEIGHT - 60, variables.TILE_SIZE):
+        for y in range(0, variables.HEIGHT - int(variables.HEIGHT/10), variables.TILE_SIZE):
             variables.tiles.append(
                 Tile.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
                           variables.bgColor,
@@ -193,6 +197,8 @@ def generatePosts(startTile, endTile):
 
 def calculatePath(start, end, posts):
     start.setColor(variables.redColor)
+    start.setType(Tile.TileType.Road)
+    end.setType(Tile.TileType.Road)
     posts.insert(0, start)
     posts.append(end)
     i = 0
@@ -210,6 +216,7 @@ def calculatePath(start, end, posts):
             continue
         else:
             bestNeighbour.setColor(variables.roadColor)
+            bestNeighbour.setType(Tile.TileType.Road)
             posts.insert(i + 1, bestNeighbour)
             i += 1
     return posts

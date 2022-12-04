@@ -15,13 +15,6 @@ coinTextPos = (40, 566)
 enemiesLeftPos = (570, 543)
 uiDownPos = (0, 540)
 
-tower1Image = pygame.transform.scale(pygame.image.load("materials/towers/tower1.png"), (25, 25))
-tower2Image = pygame.transform.scale(pygame.image.load("materials/towers/tower2.png"), (25, 25))
-tower3Image = pygame.transform.scale(pygame.image.load("materials/towers/tower3.png"), (25, 25))
-tower4Image = pygame.transform.scale(pygame.image.load("materials/towers/tower4.png"), (25, 25))
-tower5Image = pygame.transform.scale(pygame.image.load("materials/towers/tower5.png"), (25, 25))
-tower6Image = pygame.transform.scale(pygame.image.load("materials/towers/tower6.png"), (25, 25))
-
 class UIController:
     def __init__(self):
         self.needToDrawTowerSelector = False
@@ -44,6 +37,12 @@ class UIController:
 
     def updateTowerSelector(self):
         if self.needToDrawTowerSelector:
+            colorUpgrade = colorBuild = (120, 120, 120)
+            if not self.canUpgrade:
+                colorUpgrade = (60, 60, 60)
+            if not self.canBuild:
+                colorBuild = (60, 60, 60)
+
             bgTowerSelector = pygame.Rect(self.towerSelectorPos[0], self.towerSelectorPos[1], variables.TILE_SIZE * 2, variables.TILE_SIZE)
             buildButton = pygame.Rect(self.towerSelectorPos[0] + 2.5, self.towerSelectorPos[1] + 2.5, variables.TILE_SIZE - 5, variables.TILE_SIZE - 5)
             upgradeButton = pygame.Rect(self.towerSelectorPos[0] + 2.5 + variables.TILE_SIZE, self.towerSelectorPos[1] + 2.5, variables.TILE_SIZE - 5, variables.TILE_SIZE - 5)
@@ -51,10 +50,10 @@ class UIController:
             textUpgrade = variables.font.render('U', True, (200, 200, 200), None)
 
             pygame.draw.rect(variables.window, variables.gridColor, bgTowerSelector, variables.TILE_SIZE)
-            pygame.draw.rect(variables.window, variables.buttonBgColor, buildButton, variables.TILE_SIZE)
-            variables.window.blit(textBuild, (self.towerSelectorPos[0] + 8, self.towerSelectorPos[1]))
 
-            pygame.draw.rect(variables.window, variables.buttonBgColor, upgradeButton, variables.TILE_SIZE)
+            pygame.draw.rect(variables.window, colorBuild, buildButton, variables.TILE_SIZE)
+            variables.window.blit(textBuild, (self.towerSelectorPos[0] + 8, self.towerSelectorPos[1]))
+            pygame.draw.rect(variables.window, colorUpgrade, upgradeButton, variables.TILE_SIZE)
             variables.window.blit(textUpgrade, (self.towerSelectorPos[0] + 8 + variables.TILE_SIZE, self.towerSelectorPos[1]))
 
             self.boundBuildButton = (self.towerSelectorPos[0] + 2.5, self.towerSelectorPos[1] + 2.5)
@@ -99,9 +98,9 @@ class UIController:
         inBoundsUpgrade = (clickPos[0] > self.boundUpgradeButton[0] and clickPos[1] > self.boundUpgradeButton[1]) and \
                         (clickPos[0] < self.boundUpgradeButton[0] + variables.TILE_SIZE - 5 and clickPos[1] <
                          self.boundUpgradeButton[1] + variables.TILE_SIZE - 5) \
-                        and self.canBuild
+                        and self.canUpgrade
         if inBoundsBuild:
-            print("Build")
+            variables.gameController.placeTower(variables.selectedTile)
         elif inBoundsUpgrade:
             print("Upgrade")
 

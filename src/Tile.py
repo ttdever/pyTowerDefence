@@ -44,5 +44,5 @@ class Tile:
     def getType(self):
         return self.type
 
-    def setType(self):
-        self.type = type
+    def setType(self, typeOfTile):
+        self.type = typeOfTile

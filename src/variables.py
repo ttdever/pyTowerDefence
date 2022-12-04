@@ -32,6 +32,9 @@ buttonBgColor = (120, 120, 120)
 
 # Game objects:
 enemies = []
+towers = []
+guns = []
+amos = []
 
 # Game rules:
 numberOfEnemiesToBeSpawned = 10
