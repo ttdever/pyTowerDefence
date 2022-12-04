@@ -3,26 +3,30 @@ import pygame
 
 heartImage = pygame.image.load('materials/UI/heart.png')
 heartImage = pygame.transform.scale(heartImage, (20, 20))
-heartPos = (10, 545)
-heartTextPos = (40, 540)
+heartPos = (10, 548)
+heartTextPos = (40, 543)
 
 coinImage = pygame.image.load('materials/UI/coin.png')
 coinImage = pygame.transform.scale(coinImage, (20, 20))
 coinPos = (10, 570)
 coinTextPos = (40, 566)
 
-enemiesLeftPos = (570, 540)
+enemiesLeftPos = (570, 543)
+
+uiDownImage = pygame.image.load("materials/UI/uiDown.png")
+uiDownImage = pygame.transform.scale(uiDownImage, (600, 60))
+uiDownPos = (0, 540)
 
 class UIController:
     def __init__(self):
         pass
 
     def updateUI(self):
+        self.updateBg()
         self.updateAmmo()
         self.updateHP()
         self.updateCoins()
         self.updateEnemiesLeft()
-        self.updateBg()
 
     def updateAmmo(self):
         pass
@@ -42,4 +46,5 @@ class UIController:
         variables.window.blit(text, enemiesLeftPos)
 
     def updateBg(self):
-        pass
+        rectToDraw = pygame.Rect(uiDownPos[0], uiDownPos[1], 600, 60)
+        pygame.draw.rect(variables.window, variables.roadColor, rectToDraw, 5)
