@@ -16,7 +16,9 @@ pathPostShift = 3
 selectedTile = None
 gameZoneBounds = (0, 0)
 mouseInGameZone = False
+tilesAreSelectable = True
 interfaceController = None
+gameController = None
 
 # Colors
 bgColor = (60, 127, 60)
@@ -26,6 +28,7 @@ baseColor = (0, 0, 255)
 redColor = (255, 0, 0)
 yellowColor = (255, 255, 0)
 gridColor = (60, 60, 60)
+buttonBgColor = (120, 120, 120)
 
 # Game objects:
 enemies = []
@@ -36,7 +39,6 @@ numberOfEnemiesLeft = 10
 enemyHp = 10
 moneyPerEnemy = 10
 enemySpawnDelay = 2
-
 
 baseDamage = 5
 baseHp = 5

@@ -5,6 +5,7 @@ import variables
 import math
 import Tile
 import UIController
+import GameController
 import numpy as np
 
 
@@ -21,6 +22,7 @@ def initGame():
     generatePath()
     getGameZoneBounds()
     variables.interfaceController = UIController.UIController()
+    variables.gameController = GameController.GameController()
 
 
 # Call every frame (unity update analog)
@@ -60,7 +62,11 @@ def checkMouseInGameZone():
 
 def checkClick(clickPos):
     if variables.mouseInGameZone:
-        pass
+        x = variables.selectedTile.getPosition()[0]
+        y = variables.selectedTile.getPosition()[1] - variables.TILE_SIZE
+        variables.interfaceController.setTowerSelectorPos(x, y)
+        variables.interfaceController.setNeedToDrawTowerSelector(True)
+        variables.tilesAreSelectable = False
     else:
         pass
 
@@ -77,7 +83,7 @@ def moveEnemies():
 
 # Check mouse position and craw selected tile
 def drawSelectedTile():
-    if variables.mouseInGameZone:
+    if variables.mouseInGameZone and variables.tilesAreSelectable:
         mousePosition = pygame.mouse.get_pos()
         closestTile = findClosestTile(mousePosition)
         selectedTile = pygame.Rect(closestTile.getPosition()[0] - variables.TILE_SIZE / 2 + 1,
