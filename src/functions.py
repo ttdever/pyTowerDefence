@@ -4,6 +4,7 @@ import pygame
 import variables
 import math
 import Tile
+import Enemy
 import numpy as np
 
 
@@ -16,6 +17,8 @@ def initGame():
     calculateTiles()
     drawGrid()
     generatePath()
+    testE = Enemy.Enemy(10, 25, variables.roadTiles)
+    variables.enemies.append(testE)
 
 
 # Call every frame (unity update analog)
@@ -29,6 +32,7 @@ def tickGame():
 def checkDraw():
     drawGrid()
     drawSelectedTile()
+    drawEnemies()
     pygame.display.update()
 
 
@@ -37,7 +41,17 @@ def checkInputs():
 
 
 def checkPhysics():
-    pass
+    moveEnemies()
+
+
+def drawEnemies():
+    for enemy in variables.enemies:
+        enemy.draw(variables.window)
+
+
+def moveEnemies():
+    for enemy in variables.enemies:
+        enemy.move()
 
 
 # Check mouse position and craw selected tile
@@ -74,6 +88,7 @@ def checkExit():
 
 # Creates tiles and writes tile centers to "variables.tiles"
 def drawGrid():
+    variables.window.fill(variables.gridColor)
     for tile in variables.tiles:
         coordinatesToDraw = tile.getPosition()
         x = coordinatesToDraw[0] - variables.TILE_SIZE / 2 + 1
@@ -87,10 +102,10 @@ def calculateTiles():
     for x in range(0, variables.WIDTH, variables.TILE_SIZE):
         for y in range(0, variables.HEIGHT, variables.TILE_SIZE):
             variables.tiles.append(
-                classes.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
-                             variables.bgColor,
-                             (int(x / variables.TILE_SIZE), int(y / variables.TILE_SIZE)),
-                             classes.TileType.Ground))
+                Tile.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
+                          variables.bgColor,
+                          (int(x / variables.TILE_SIZE), int(y / variables.TILE_SIZE)),
+                          Tile.TileType.Ground))
     variables.tileResolutionY = y / variables.TILE_SIZE + 1
     variables.tileResolutionX = x / variables.TILE_SIZE + 1
 
@@ -163,4 +178,3 @@ def calculatePath(start, end, posts):
             posts.insert(i + 1, bestNeighbour)
             i += 1
     return posts
-
