@@ -1,5 +1,5 @@
 import math
-import numpy as np
+import Tower
 from enum import Enum
 
 class TileType(Enum):
@@ -14,6 +14,7 @@ class Tile:
         self.color = color
         self.tileResolutionPosition = tileResolutionPosition
         self.type = type
+        self.tower = None
 
     def getPosition(self):
         return self.position
@@ -46,3 +47,9 @@ class Tile:
 
     def setType(self, typeOfTile):
         self.type = typeOfTile
+
+    def setTower(self, tower):
+        self.tower = tower
+
+    def getTower(self):
+        return self.tower

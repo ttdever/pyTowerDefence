@@ -34,14 +34,14 @@ buttonBgColor = (120, 120, 120)
 enemies = []
 towers = []
 guns = []
-amos = []
+ammos = []
 
 # Game rules:
 numberOfEnemiesToBeSpawned = 10
 numberOfEnemiesLeft = 10
 enemyHp = 10
-moneyPerEnemy = 10
-enemySpawnDelay = 2
+moneyPerEnemy = 5
+enemySpawnDelay = 2000
 
 baseDamage = 5
 baseHp = 5
@@ -49,6 +49,9 @@ money = 50
 point = 0
 costOfTower = 25
 towerRange = 100
+ammoSpeed = 100
+ammoDamage = 10
+towerShootDelay = 4000
 
 # Fonts:
 font = None

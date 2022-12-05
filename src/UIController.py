@@ -109,7 +109,7 @@ class UIController:
         if inBoundsBuild:
             variables.gameController.placeTower(variables.selectedTile)
         elif inBoundsUpgrade:
-            print("Upgrade")
+            variables.gameController.upgradeTower(variables.selectedTile)
 
         variables.tilesAreSelectable = True
         self.needToDrawTowerSelector = False

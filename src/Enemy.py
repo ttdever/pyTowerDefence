@@ -1,5 +1,4 @@
-import time
-
+import variables
 import pygame
 import variables
 
@@ -16,11 +15,11 @@ class Enemy:
         self.prevTime = 0
 
     def draw(self, window):
-        pygame.draw.circle(window, (0, 0, 0), self.currentPosition, 2)
+        pygame.draw.circle(window, (0,0,0), self.currentPosition, 6)
+        pygame.draw.circle(window, variables.redColor, self.currentPosition, 5)
 
     def move(self):
         vectorX, vectorY = (self.targetPosition[0] - self.currentPosition[0], self.targetPosition[1] - self.currentPosition[1])
-        stepY = stepX = 0
 
         if vectorY < 0:
             stepY = (-1 * self.speed) / variables.FPS
@@ -38,3 +37,21 @@ class Enemy:
             if self.currentRoadIndex < self.roadLength:
                 self.currentRoadIndex += 1
                 self.targetPosition = self.road[self.currentRoadIndex].getPosition()
+            else:
+                variables.gameController.getPlayerDamage()
+                variables.enemies.remove(self)
+
+
+    def getDamage(self, damage):
+        self.hp -= damage
+        if self.hp <= 0:
+            self.die()
+    def die(self):
+        variables.money += variables.moneyPerEnemy
+        try:
+            variables.enemies.remove(self)
+        except Exception as e:
+            pass
+
+    def getPosition(self):
+        return self.currentPosition

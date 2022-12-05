@@ -39,6 +39,7 @@ def checkDraw():
     drawSelectedTile()
     drawEnemies()
     drawTowers()
+    drawAmos()
     variables.interfaceController.updateUI()
     pygame.display.update()
 
@@ -56,7 +57,16 @@ def checkInputs():
 
 def checkPhysics():
     moveEnemies()
+    updateTowers()
+    updateAmos()
+    variables.gameController.update()
 
+def updateAmos():
+    for ammo in variables.ammos:
+        ammo.update()
+def updateTowers():
+    for tower in variables.towers:
+        tower.update()
 
 def checkMouseInGameZone():
     mousePos = pygame.mouse.get_pos()
@@ -87,6 +97,10 @@ def checkClick(clickPos):
     else:
         pass
 
+
+def drawAmos():
+    for ammo in variables.ammos:
+        ammo.draw(variables.window)
 
 def drawTowers():
     for tower in variables.towers:
