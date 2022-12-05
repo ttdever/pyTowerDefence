@@ -44,6 +44,11 @@ class UIController:
             if not self.canBuild:
                 colorBuild = (60, 60, 60)
 
+            if self.towerSelectorPos[0] + variables.TILE_SIZE * 2 > variables.WIDTH:
+                self.towerSelectorPos = (self.towerSelectorPos[0] - variables.TILE_SIZE * 2, self.towerSelectorPos[1])
+            if self.towerSelectorPos[1] - variables.TILE_SIZE/2 < 0:
+                self.towerSelectorPos = (self.towerSelectorPos[0], self.towerSelectorPos[1] + variables.TILE_SIZE/2)
+
             bgTowerSelector = pygame.Rect(self.towerSelectorPos[0], self.towerSelectorPos[1], variables.TILE_SIZE * 2,
                                           variables.TILE_SIZE)
             buildButton = pygame.Rect(self.towerSelectorPos[0] + 2.5, self.towerSelectorPos[1] + 2.5,

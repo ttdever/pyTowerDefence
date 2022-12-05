@@ -11,12 +11,14 @@ class Ammo:
         self.spawnTime = pygame.time.get_ticks()
         self.currentTime = self.spawnTime
         self.color = color
+        self.stopped = False
 
     def update(self):
-        self.moveTowardsEnemy()
-        self.currentTime = pygame.time.get_ticks()
-        if self.currentTime - self.spawnTime > self.liveTime:
-            self.destroy()
+        if not self.stopped:
+            self.moveTowardsEnemy()
+            self.currentTime = pygame.time.get_ticks()
+            if self.currentTime - self.spawnTime > self.liveTime:
+                self.destroy()
 
     def moveTowardsEnemy(self):
         vectorX, vectorY = (
