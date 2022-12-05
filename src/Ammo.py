@@ -2,14 +2,21 @@ import pygame.draw
 
 import variables
 class Ammo:
-    def __init__(self, instancePos, targetEnemy, speed, damage):
+    def __init__(self, instancePos, targetEnemy, speed, damage, color):
         self.targetEnemy = targetEnemy
         self.speed = speed
         self.damage = damage
         self.position = instancePos
+        self.liveTime = 1000
+        self.spawnTime = pygame.time.get_ticks()
+        self.currentTime = self.spawnTime
+        self.color = color
 
     def update(self):
         self.moveTowardsEnemy()
+        self.currentTime = pygame.time.get_ticks()
+        if self.currentTime - self.spawnTime > self.liveTime:
+            self.destroy()
 
     def moveTowardsEnemy(self):
         vectorX, vectorY = (
@@ -29,6 +36,13 @@ class Ammo:
             self.position[1] - self.targetEnemy.getPosition()[1]) < 2
         if checkMinDistance:
             self.targetEnemy.getDamage(self.damage)
+            self.destroy()
+
+    def destroy(self):
+        try:
             variables.ammos.remove(self)
+        except Exception as e:
+            pass
+
     def draw(self, window):
-        pygame.draw.circle(window, (0, 125, 200), self.position, 4, 4)
+        pygame.draw.circle(window, self.color, self.position, 4, 4)

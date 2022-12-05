@@ -3,7 +3,7 @@ import pygame
 import math
 import Ammo
 
-gun1Image = pygame.transform.scale(pygame.image.load("materials/weapons/guns/gun1.png"), (variables.TILE_SIZE - 5, variables.TILE_SIZE - 5))
+ammoColors = [(127, 255, 212), (227, 207, 87), (0, 0, 255), (152, 245, 255), (255, 97, 3), (220, 20, 60)]
 
 class Tower:
     def __init__(self, lvl, position, image, costOfUpgrade=20):
@@ -39,7 +39,10 @@ class Tower:
         return self.lvl
 
     def shoot(self, enemy):
-        ammoToCreate = Ammo.Ammo(self.position, enemy, variables.ammoSpeed * self.lvl, variables.ammoDamage * self.lvl)
+        multi = self.lvl / 2
+        if multi < 1:
+            multi = 1
+        ammoToCreate = Ammo.Ammo(self.position, enemy, variables.ammoSpeed * multi + 1, variables.ammoDamage * multi + 1, ammoColors[self.lvl - 1])
         variables.ammos.append(ammoToCreate)
 
     def findClosestEnemy(self):
@@ -51,7 +54,5 @@ class Tower:
             return bestEnemy
         else:
             return None
-
-
 
         pass

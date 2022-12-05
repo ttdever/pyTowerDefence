@@ -48,20 +48,25 @@ class GameController:
         self.currentTime = pygame.time.get_ticks()
         if self.checkIfSpawnEnemies():
             self.spawnEnemy()
+        elif variables.numberOfEnemiesLeft <= 0:
+            self.win()
+
     def checkIfSpawnEnemies(self):
         if self.currentTime - self.lastSpawnTime > variables.enemySpawnDelay and variables.numberOfEnemiesLeft > 0:
             self.lastSpawnTime = self.currentTime
+            if variables.enemySpawnDelay < 1:
+                variables.enemySpawnDelay = 1
+            else:
+                variables.enemySpawnDelay -= variables.passedTime/20
             return True
         else:
             return False
 
     def spawnEnemy(self):
-        enemyToSpawn = Enemy.Enemy(10, 50, variables.roadTiles)
+        enemyToSpawn = Enemy.Enemy(10 + variables.passedTime/2.5, 50 + variables.passedTime/50, variables.roadTiles)
         variables.enemies.append(enemyToSpawn)
         variables.numberOfEnemiesLeft -= 1
 
-    def loadNextLvl(self):
-        pass
 
     def getPlayerDamage(self):
         variables.baseHp -= 1
@@ -71,6 +76,9 @@ class GameController:
 
     def loose(self):
         print("Game over")
+
+    def win(self):
+        print("Wint")
 
     def stopGame(self):
         pass

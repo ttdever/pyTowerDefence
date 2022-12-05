@@ -12,7 +12,7 @@ tiles = []
 roadTiles = []
 tileResolutionX = 0
 tileResolutionY = 0
-pathPostShift = 3
+pathPostShift = 1
 selectedTile = None
 gameZoneBounds = (0, 0)
 mouseInGameZone = False
@@ -38,7 +38,7 @@ ammos = []
 
 # Game rules:
 numberOfEnemiesToBeSpawned = 10
-numberOfEnemiesLeft = 10
+numberOfEnemiesLeft = 500
 enemyHp = 10
 moneyPerEnemy = 5
 enemySpawnDelay = 2000
@@ -51,7 +51,8 @@ costOfTower = 25
 towerRange = 100
 ammoSpeed = 100
 ammoDamage = 10
-towerShootDelay = 4000
+towerShootDelay = 2000
+passedTime = 0
 
 # Fonts:
 font = None

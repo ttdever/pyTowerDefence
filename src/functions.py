@@ -32,7 +32,7 @@ def tickGame():
     checkInputs()
     checkPhysics()
     checkDraw()
-
+    variables.passedTime = pygame.time.get_ticks()/1000
 
 def checkDraw():
     drawGrid()
