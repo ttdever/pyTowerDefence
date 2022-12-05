@@ -11,14 +11,13 @@ class Ammo:
         self.spawnTime = pygame.time.get_ticks()
         self.currentTime = self.spawnTime
         self.color = color
-        self.stopped = False
+        variables.audioController.playShot()
 
     def update(self):
-        if not self.stopped:
-            self.moveTowardsEnemy()
-            self.currentTime = pygame.time.get_ticks()
-            if self.currentTime - self.spawnTime > self.liveTime:
-                self.destroy()
+        self.moveTowardsEnemy()
+        self.currentTime = pygame.time.get_ticks()
+        if self.currentTime - self.spawnTime > self.liveTime:
+            self.destroy()
 
     def moveTowardsEnemy(self):
         vectorX, vectorY = (

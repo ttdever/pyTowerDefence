@@ -6,8 +6,8 @@ import math
 import Tile
 import UIController
 import GameController
+import AudioContoller
 import numpy as np
-import Enemy
 
 
 # Start of program:
@@ -24,6 +24,8 @@ def initGame():
     getGameZoneBounds()
     variables.interfaceController = UIController.UIController()
     variables.gameController = GameController.GameController()
+    variables.audioController = AudioContoller.AudioController()
+    variables.audioController.playBg()
 
 
 # Call every frame (unity update analog)
@@ -53,13 +55,21 @@ def checkInputs():
             sys.exit(0)
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             checkClick(pygame.mouse.get_pos())
+        elif event.type == pygame.constants.KEYDOWN:
+            if event.key == pygame.constants.K_ESCAPE:
+                if not variables.stopped:
+                    pause()
+                else:
+                    unpause()
+
 
 
 def checkPhysics():
-    moveEnemies()
-    updateTowers()
-    updateAmos()
-    variables.gameController.update()
+    if not variables.stopped:
+        moveEnemies()
+        updateTowers()
+        updateAmos()
+        variables.gameController.update()
 
 def updateAmos():
     for ammo in variables.ammos:
@@ -74,7 +84,7 @@ def checkMouseInGameZone():
 
 
 def checkClick(clickPos):
-    if variables.mouseInGameZone and variables.tilesAreSelectable:
+    if variables.mouseInGameZone and variables.tilesAreSelectable and not variables.stopped:
         x = variables.selectedTile.getPosition()[0]
         y = variables.selectedTile.getPosition()[1] - variables.TILE_SIZE
         variables.interfaceController.setTowerSelectorPos(x, y)
@@ -91,6 +101,7 @@ def checkClick(clickPos):
             variables.interfaceController.setCanBuild(False)
             variables.interfaceController.setCanUpgrade(False)
 
+        variables.audioController.playSelection()
         variables.tilesAreSelectable = False
     elif not variables.tilesAreSelectable:
         variables.interfaceController.checkMouseInput(clickPos)
@@ -244,3 +255,11 @@ def getGameZoneBounds():
     lastTile = variables.tiles[len(variables.tiles) - 1]
     variables.gameZoneBounds = (
         lastTile.getPosition()[0] + variables.TILE_SIZE / 2, lastTile.getPosition()[1] + variables.TILE_SIZE / 2)
+
+def pause():
+    variables.stopped = True
+
+
+def unpause():
+    variables.stopped = False
+

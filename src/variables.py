@@ -1,5 +1,3 @@
-import pygame.freetype
-
 # Window settings
 FPS = 60
 WIDTH, HEIGHT = 600, 600
@@ -19,6 +17,7 @@ mouseInGameZone = False
 tilesAreSelectable = True
 interfaceController = None
 gameController = None
+audioController = None
 
 # Colors
 bgColor = (60, 127, 60)
@@ -38,7 +37,7 @@ ammos = []
 
 # Game rules:
 numberOfEnemiesToBeSpawned = 10
-numberOfEnemiesLeft = 500
+numberOfEnemiesLeft = 100
 enemyHp = 10
 moneyPerEnemy = 5
 enemySpawnDelay = 2000
@@ -53,6 +52,8 @@ ammoSpeed = 100
 ammoDamage = 10
 towerShootDelay = 2000
 passedTime = 0
+
+stopped = False
 
 # Fonts:
 font = None

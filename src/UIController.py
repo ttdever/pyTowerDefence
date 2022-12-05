@@ -12,7 +12,7 @@ coinImage = pygame.transform.scale(coinImage, (20, 20))
 coinPos = (10, 570)
 coinTextPos = (40, 566)
 
-enemiesLeftPos = (570, 543)
+enemiesLeftPos = (560, 543)
 uiDownPos = (0, 540)
 
 
@@ -118,3 +118,5 @@ class UIController:
 
         variables.tilesAreSelectable = True
         self.needToDrawTowerSelector = False
+    def drawMenu(self):
+        pass

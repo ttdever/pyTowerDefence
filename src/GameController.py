@@ -23,6 +23,7 @@ class GameController:
             variables.towers.append(towerToAdd)
             tile.setType(Tile.TileType.Tower)
             tile.setTower(towerToAdd)
+            variables.audioController.playBuild()
             variables.money -= variables.costOfTower
 
 
@@ -42,6 +43,7 @@ class GameController:
                 tower.upgrade(tower6Image)
             elif towerLvl == 6:
                 return
+            variables.audioController.playUpgrade()
             variables.money -= variables.costOfTower
 
     def update(self):
@@ -78,11 +80,5 @@ class GameController:
         print("Game over")
 
     def win(self):
-        print("Wint")
-
-    def stopGame(self):
-        pass
-
-    def continueGame(self):
-        pass
+        print("Win")
 

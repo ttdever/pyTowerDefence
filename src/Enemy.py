@@ -15,7 +15,6 @@ class Enemy:
         self.currentPosition = road[0].getPosition()
         self.targetPosition = road[1].getPosition()
         self.prevTime = 0
-        self.stopped = False
 
     def draw(self, window):
         if 10 <= self.hp < 20:
@@ -36,29 +35,29 @@ class Enemy:
         pygame.draw.circle(window, color, self.currentPosition, 5)
 
     def move(self):
-        if not self.stopped:
-            vectorX, vectorY = (
-            self.targetPosition[0] - self.currentPosition[0], self.targetPosition[1] - self.currentPosition[1])
+        vectorX, vectorY = (
+        self.targetPosition[0] - self.currentPosition[0], self.targetPosition[1] - self.currentPosition[1])
 
-            if vectorY < 0:
-                stepY = (-1 * self.speed) / variables.FPS
-            else:
-                stepY = (1 * self.speed) / variables.FPS
-            if vectorX < 0:
-                stepX = (-1 * self.speed) / variables.FPS
-            else:
-                stepX = (1 * self.speed) / variables.FPS
+        if vectorY < 0:
+            stepY = (-1 * self.speed) / variables.FPS
+        else:
+            stepY = (1 * self.speed) / variables.FPS
+        if vectorX < 0:
+            stepX = (-1 * self.speed) / variables.FPS
+        else:
+            stepX = (1 * self.speed) / variables.FPS
 
-            self.currentPosition = (self.currentPosition[0] + stepX, self.currentPosition[1] + stepY)
-            checkMinDistance = abs(self.currentPosition[0] - self.targetPosition[0]) < 7 and abs(
-                self.currentPosition[1] - self.targetPosition[1]) < 7
-            if checkMinDistance:
-                if self.currentRoadIndex < self.roadLength:
-                    self.currentRoadIndex += 1
-                    self.targetPosition = self.road[self.currentRoadIndex].getPosition()
-                else:
-                    variables.gameController.getPlayerDamage()
-                    variables.enemies.remove(self)
+        self.currentPosition = (self.currentPosition[0] + stepX, self.currentPosition[1] + stepY)
+        checkMinDistance = abs(self.currentPosition[0] - self.targetPosition[0]) < 7 and abs(
+            self.currentPosition[1] - self.targetPosition[1]) < 7
+        if checkMinDistance:
+            if self.currentRoadIndex < self.roadLength:
+                self.currentRoadIndex += 1
+                self.targetPosition = self.road[self.currentRoadIndex].getPosition()
+            else:
+                variables.gameController.getPlayerDamage()
+                variables.audioController.playBaseHit()
+                variables.enemies.remove(self)
 
     def getDamage(self, damage):
         self.hp -= damage
@@ -66,9 +65,10 @@ class Enemy:
             self.die()
 
     def die(self):
-        variables.money += variables.moneyPerEnemy
         try:
+            variables.audioController.playEnemyHit()
             variables.enemies.remove(self)
+            variables.money += variables.moneyPerEnemy
         except Exception as e:
             pass
 
