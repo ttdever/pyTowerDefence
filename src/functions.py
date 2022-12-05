@@ -25,24 +25,40 @@ def initGame():
     variables.interfaceController = UIController.UIController()
     variables.gameController = GameController.GameController()
     variables.audioController = AudioContoller.AudioController()
-    variables.audioController.playBg()
+
 
 
 # Call every frame (unity update analog)
 def tickGame():
+    variables.timerStart = pygame.time.get_ticks()
     variables.clock.tick(variables.FPS)
     checkInputs()
     checkPhysics()
     checkDraw()
-    variables.passedTime = pygame.time.get_ticks()/1000
+    variables.timerEnd = pygame.time.get_ticks()
+
+    timerDelta = variables.timerEnd - variables.timerStart
+    if variables.needToCountTimer:
+        variables.passedTime += timerDelta/1000
+    print(variables.passedTime)
 
 def checkDraw():
-    drawGrid()
-    drawSelectedTile()
-    drawEnemies()
-    drawTowers()
-    drawAmos()
-    variables.interfaceController.updateUI()
+    if not variables.startedPlay:
+        variables.interfaceController.drawMainMenu()
+    elif variables.win and variables.stopped:
+        variables.interfaceController.drawWinScreen()
+    elif variables.loose and variables.stopped:
+        variables.interfaceController.drawLostScreen()
+    else:
+        if variables.stopped:
+            variables.interfaceController.drawMenu()
+        else:
+            drawGrid()
+            drawSelectedTile()
+            drawEnemies()
+            drawTowers()
+            drawAmos()
+            variables.interfaceController.updateUI()
     pygame.display.update()
 
 
@@ -65,7 +81,7 @@ def checkInputs():
 
 
 def checkPhysics():
-    if not variables.stopped:
+    if not variables.stopped and variables.startedPlay:
         moveEnemies()
         updateTowers()
         updateAmos()
@@ -84,7 +100,7 @@ def checkMouseInGameZone():
 
 
 def checkClick(clickPos):
-    if variables.mouseInGameZone and variables.tilesAreSelectable and not variables.stopped:
+    if variables.mouseInGameZone and variables.tilesAreSelectable and not variables.stopped and variables.startedPlay:
         x = variables.selectedTile.getPosition()[0]
         y = variables.selectedTile.getPosition()[1] - variables.TILE_SIZE
         variables.interfaceController.setTowerSelectorPos(x, y)
@@ -105,8 +121,17 @@ def checkClick(clickPos):
         variables.tilesAreSelectable = False
     elif not variables.tilesAreSelectable:
         variables.interfaceController.checkMouseInput(clickPos)
-    else:
-        pass
+    elif variables.stopped and variables.startedPlay and not variables.win and not variables.loose:
+        variables.interfaceController.checkQuitButton(clickPos)
+    elif not variables.startedPlay:
+        variables.interfaceController.checkMainMenuButtons(clickPos)
+    elif variables.win and variables.stopped:
+        variables.interfaceController.checkWinScreen(clickPos)
+    elif variables.loose and variables.stopped:
+        variables.interfaceController.checkLostScreen(clickPos)
+
+
+
 
 
 def drawAmos():
@@ -258,8 +283,9 @@ def getGameZoneBounds():
 
 def pause():
     variables.stopped = True
-
+    variables.needToCountTimer = False
 
 def unpause():
+    variables.needToCountTimer = True
     variables.stopped = False
 

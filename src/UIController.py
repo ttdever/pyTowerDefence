@@ -1,6 +1,8 @@
 import variables
 import pygame
 import pygame.freetype
+import sys
+import functions
 
 heartImage = pygame.image.load('materials/UI/heart.png')
 heartImage = pygame.transform.scale(heartImage, (20, 20))
@@ -119,4 +121,92 @@ class UIController:
         variables.tilesAreSelectable = True
         self.needToDrawTowerSelector = False
     def drawMenu(self):
-        pass
+        variables.window.fill((80, 80, 80))
+        quitButton = pygame.Rect(200,200,200,50)
+        quitButtonBlack = pygame.Rect(195, 195, 210, 60)
+        pygame.draw.rect(variables.window, (0,0,0), quitButtonBlack, 25, 25)
+        pygame.draw.rect(variables.window, variables.buttonBgColor, quitButton, 25, 25)
+        text = variables.font.render("Quit", True, (200, 200, 200), None)
+        variables.window.blit(text, (280, 210))
+
+        text = variables.font.render("Or press esc to continue", True, (200, 200, 200), None)
+        variables.window.blit(text, (200, 310))
+
+    def checkQuitButton(self, clickPos):
+        if 200 <= clickPos[0] <= 400 and 200 <= clickPos[1] <= 250:
+            pygame.quit()
+            sys.exit(0)
+
+    def drawMainMenu(self):
+        variables.window.fill((60, 120, 60))
+        quitButton = pygame.Rect(200, 200, 200, 50)
+        quitButtonBlack = pygame.Rect(195, 195, 210, 60)
+        pygame.draw.rect(variables.window, (0, 0, 0), quitButtonBlack, 25, 25)
+        pygame.draw.rect(variables.window, variables.buttonBgColor, quitButton, 25, 25)
+        text = variables.font.render("Start", True, (200, 200, 200), None)
+        variables.window.blit(text, (280, 210))
+
+    def checkMainMenuButtons(self, clickPos):
+        if 200 <= clickPos[0] <= 400 and 200 <= clickPos[1] <= 250:
+            variables.startedPlay = True
+            variables.passedTime = 0
+            variables.audioController.playBg()
+            variables.enemySpawnDelay = 2000
+
+    def drawWinScreen(self):
+        variables.window.fill((60, 120, 60))
+        quitButton = pygame.Rect(200, 200, 200, 50)
+        quitButtonBlack = pygame.Rect(195, 195, 210, 60)
+        pygame.draw.rect(variables.window, (0, 0, 0), quitButtonBlack, 25, 25)
+        pygame.draw.rect(variables.window, variables.buttonBgColor, quitButton, 25, 25)
+        text = variables.font.render("Next", True, (200, 200, 200), None)
+        variables.window.blit(text, (280, 210))
+        text = variables.font.render("You won press next to continue", True, (200, 200, 200), None)
+        variables.window.blit(text, (180, 310))
+
+    def checkWinScreen(self, clickPos):
+        if 200 <= clickPos[0] <= 400 and 200 <= clickPos[1] <= 250:
+            variables.numberOfEnemiesToBeSpawned *= 2
+            variables.numberOfEnemiesLeft = variables.numberOfEnemiesToBeSpawned
+            variables.baseHp = 5
+            variables.money = 50
+            variables.enemies = []
+            variables.towers = []
+            variables.ammos = []
+            variables.enemySpawnDelay = 2000
+            variables.tiles = []
+            functions.initGame()
+            variables.passedTime = 0
+            variables.stopped = False
+            variables.win = False
+
+    def drawLostScreen(self):
+        variables.window.fill((60,120,60))
+        quitButton = pygame.Rect(200,200,200,50)
+        quitButtonBlack = pygame.Rect(195, 195, 210, 60)
+        pygame.draw.rect(variables.window, (0,0,0), quitButtonBlack, 25, 25)
+        pygame.draw.rect(variables.window, variables.buttonBgColor, quitButton, 25, 25)
+        text = variables.font.render("Again", True, (200, 200, 200), None)
+        variables.window.blit(text, (280, 210))
+        text = variables.font.render("You lost press again to restart", True, (200, 200, 200), None)
+        variables.window.blit(text, (175, 310))
+
+    def checkLostScreen(self, clickPos):
+        if 200 <= clickPos[0] <= 400 and 200 <= clickPos[1] <= 250:
+            variables.numberOfEnemiesToBeSpawned = 50
+            variables.numberOfEnemiesLeft = variables.numberOfEnemiesToBeSpawned
+            variables.baseHp = 5
+            variables.money = 50
+            variables.enemies = []
+            variables.towers = []
+            variables.enemySpawnDelay = 2000
+            variables.ammos = []
+            variables.tiles = []
+            variables.passedTime = 0
+            functions.initGame()
+            variables.stopped = False
+            variables.win = False
+
+
+
+

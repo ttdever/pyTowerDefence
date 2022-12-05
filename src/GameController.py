@@ -50,16 +50,15 @@ class GameController:
         self.currentTime = pygame.time.get_ticks()
         if self.checkIfSpawnEnemies():
             self.spawnEnemy()
-        elif variables.numberOfEnemiesLeft <= 0:
+        elif variables.numberOfEnemiesLeft <= 0 and len(variables.enemies) == 0:
             self.win()
 
     def checkIfSpawnEnemies(self):
         if self.currentTime - self.lastSpawnTime > variables.enemySpawnDelay and variables.numberOfEnemiesLeft > 0:
             self.lastSpawnTime = self.currentTime
+            variables.enemySpawnDelay -= variables.passedTime / 10
             if variables.enemySpawnDelay < 1:
                 variables.enemySpawnDelay = 1
-            else:
-                variables.enemySpawnDelay -= variables.passedTime/20
             return True
         else:
             return False
@@ -77,8 +76,12 @@ class GameController:
         pass
 
     def loose(self):
-        print("Game over")
+        variables.loose = True
+        variables.enemySpawnDelay = 2000
+        variables.stopped = True
 
     def win(self):
-        print("Win")
+        variables.win = True
+        variables.enemySpawnDelay = 2000
+        variables.stopped = True
 

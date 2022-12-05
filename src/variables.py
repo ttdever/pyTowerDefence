@@ -4,6 +4,10 @@ WIDTH, HEIGHT = 600, 600
 clock = None
 window = None
 
+#Timer:
+timerStart = 0
+timerEnd = 0
+
 # GameField
 TILE_SIZE = 30
 tiles = []
@@ -18,6 +22,7 @@ tilesAreSelectable = True
 interfaceController = None
 gameController = None
 audioController = None
+needToCountTimer = True
 
 # Colors
 bgColor = (60, 127, 60)
@@ -36,8 +41,8 @@ guns = []
 ammos = []
 
 # Game rules:
-numberOfEnemiesToBeSpawned = 10
-numberOfEnemiesLeft = 100
+numberOfEnemiesToBeSpawned = 50
+numberOfEnemiesLeft = 50
 enemyHp = 10
 moneyPerEnemy = 5
 enemySpawnDelay = 2000
@@ -54,6 +59,9 @@ towerShootDelay = 2000
 passedTime = 0
 
 stopped = False
+startedPlay = False
+win = False
+loose = False
 
 # Fonts:
 font = None
