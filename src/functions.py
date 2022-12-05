@@ -7,6 +7,7 @@ import Tile
 import UIController
 import GameController
 import numpy as np
+import Enemy
 
 
 # Start of program:
@@ -61,6 +62,7 @@ def checkMouseInGameZone():
     mousePos = pygame.mouse.get_pos()
     variables.mouseInGameZone = mousePos[0] < variables.gameZoneBounds[0] and mousePos[1] < variables.gameZoneBounds[1]
 
+
 def checkClick(clickPos):
     if variables.mouseInGameZone and variables.tilesAreSelectable:
         x = variables.selectedTile.getPosition()[0]
@@ -85,9 +87,11 @@ def checkClick(clickPos):
     else:
         pass
 
+
 def drawTowers():
     for tower in variables.towers:
         tower.draw(variables.window)
+
 
 def drawEnemies():
     for enemy in variables.enemies:
@@ -139,7 +143,7 @@ def drawGrid():
 
 def calculateTiles():
     for x in range(0, variables.WIDTH, variables.TILE_SIZE):
-        for y in range(0, variables.HEIGHT - int(variables.HEIGHT/10), variables.TILE_SIZE):
+        for y in range(0, variables.HEIGHT - int(variables.HEIGHT / 10), variables.TILE_SIZE):
             variables.tiles.append(
                 Tile.Tile((x + variables.TILE_SIZE / 2, y + variables.TILE_SIZE / 2),
                           variables.bgColor,
@@ -224,5 +228,5 @@ def calculatePath(start, end, posts):
 
 def getGameZoneBounds():
     lastTile = variables.tiles[len(variables.tiles) - 1]
-    variables.gameZoneBounds = (lastTile.getPosition()[0] + variables.TILE_SIZE / 2, lastTile.getPosition()[1] + variables.TILE_SIZE / 2)
-
+    variables.gameZoneBounds = (
+        lastTile.getPosition()[0] + variables.TILE_SIZE / 2, lastTile.getPosition()[1] + variables.TILE_SIZE / 2)

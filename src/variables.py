@@ -47,7 +47,8 @@ baseDamage = 5
 baseHp = 5
 money = 50
 point = 0
-upgradeBaseCost = 25
+costOfTower = 25
+towerRange = 100
 
 # Fonts:
 font = None
