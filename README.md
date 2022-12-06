@@ -2,7 +2,7 @@
 Simple TD game created with pycharm
 
 ## Documentation:
-Documentation with functions descriptions is found in `docs/dcoumentation.md`
+Documentation with functions descriptions is found in [docs/dcoumentation.md](docs/documentation.md)
 
 ## Features:
 ### Auto generated road for enemies

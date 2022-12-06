@@ -53,6 +53,67 @@ This file contains `Tile` class
 - `type` - Type of the tile
 - `tower` - Optional, will be assigned only if `Tower` will be paled on `Tile`
 
+## File `Tower.py`:
+This file contains `Tower` class
+
+### Fields:
+- `lvl` - Lvl of tower
+- `position` - Position
+- `image` - Image of the tower
+- `cost of upgrade` - Actually always 25
+- `lastShot` - Time of last shot
+- `currentShot` - Timer for the next shot
+
+
+## File `Enemy.py`:
+This file contains `Enemy` class
+
+### Fields:
+- `hp` - Health points of the enemy
+- `speed` - Speed of the enemy
+- `road` - Road array
+- `roadLength` - Length of road array
+- `currentRoadIndex` - Current tile in road array
+- `currnetPosition` - Current position of the enemy
+- `targetPosition` - Target position of the enemy
+
+## File `Ammo.py`:
+This file contains `Ammo` class
+
+### Fields:
+- `targetEnemy` - Enemy to fly to
+- `speed` - Speed of the bullet
+- `damage` - Damage of the bullet
+- `position` - Position of the bullet
+- `liveTime` - ttl (will be destroyed after `liveTime`)
+- `spawnTime` - Time, when bullet was created
+- `currentTime` - Current time
+- `color` - Color of the bullet
+
+## File `GameController.py`:
+This file contains `GameController` class
+
+### Fields:
+- `lastSpawnTime` - Time, when last enemy was spawned
+- `currentTime` - Timer for spawning next enemy
+
+## File `UIController.py`:
+This file contains `UIController` class
+Responsible for drawing all elements of the UI and menus
+
+### Fields:
+- `needToDrawTowerSelector` - Tells, if it needs to show build menu
+- `towerSelectorPos` -  Tells, where to place build menu
+- `boundBuildButton` - Bounds of build button
+- `boundUpgradeButton` - Bound of upgrade button
+- `canUpgrade` - Tells, if it can upgrade
+- `canBuild` - Tells, if it can build
+
+
+## File `AudioController.py`:
+This file contains `AudioController` class
+Just a dummy class for more comfortable sound-calls
+
 
 End of documentation :D
 

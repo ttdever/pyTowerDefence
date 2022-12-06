@@ -14,7 +14,6 @@ class Enemy:
         self.currentRoadIndex = 1
         self.currentPosition = road[0].getPosition()
         self.targetPosition = road[1].getPosition()
-        self.prevTime = 0
 
     def draw(self, window):
         if 10 <= self.hp < 20:
