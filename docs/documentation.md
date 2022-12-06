@@ -54,4 +54,6 @@ This file contains `Tile` class
 - `tower` - Optional, will be assigned only if `Tower` will be paled on `Tile`
 
 
+End of documentation :D
+
 ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)

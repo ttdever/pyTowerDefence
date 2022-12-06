@@ -37,7 +37,6 @@ buttonBgColor = (120, 120, 120)
 # Game objects:
 enemies = []
 towers = []
-guns = []
 ammos = []
 
 # Game rules:

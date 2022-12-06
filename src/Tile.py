@@ -1,5 +1,4 @@
 import math
-import Tower
 from enum import Enum
 
 class TileType(Enum):
