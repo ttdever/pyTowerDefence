@@ -2,7 +2,7 @@
 Simple TD game created with pycharm
 
 ## Dla K.K.:
-Cały kod napisałem sam, z internetu wziąłem tylko zdjęcia wież i dźwieki
+Cały kod napisałem sam, z internetu wziąłem tylko zdjęcia wież i dźwięki
 
 ## Documentation:
 Documentation with functions descriptions is found in [docs/dcoumentation.md](docs/documentation.md)
