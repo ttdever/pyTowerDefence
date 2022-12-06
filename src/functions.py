@@ -40,7 +40,6 @@ def tickGame():
     timerDelta = variables.timerEnd - variables.timerStart
     if variables.needToCountTimer:
         variables.passedTime += timerDelta/1000
-    print(variables.passedTime)
 
 def checkDraw():
     if not variables.startedPlay:
