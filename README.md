@@ -1,6 +1,9 @@
 # pyTowerDefence:
 Simple TD game created with pycharm
 
+## Dla K.K.:
+Cały kod napisałem sam, z internetu wziąłem tylko zdjęcia wież i dźwieki
+
 ## Documentation:
 Documentation with functions descriptions is found in [docs/dcoumentation.md](docs/documentation.md)
 
@@ -48,7 +51,3 @@ Wow, game over screen with not centered text, amazing
 
 ![img.png](photos/loose.png)
 
-
-
-## Dla K.K.:
-Cały kod napisałem sam, z internetu wziąłem tylko zdjęcia wież i dźwieki
