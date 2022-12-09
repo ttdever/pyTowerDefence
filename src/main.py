@@ -1,8 +1,8 @@
 import functions
 
 def main():
-    functions.initGame()
+    functions.initGame()    # Start
     while True:
-        functions.tickGame()
+        functions.tickGame()    # Game tick
 
 main()
